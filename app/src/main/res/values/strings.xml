@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Șarade</string>
+    <string name="tv_welcome_message">Bine ai venit!</string>
+    <string name="tv_status">Mult succes la șaradă]!</string>
+    <string name="bt_try">Gata</string>
+    <string name="bt_other">Alta</string>
+    <string name="bt_hint">Sfat</string>
+    <string name="bt_info">Info</string>
+    <string name="tv_current_mark">Deocamdată ai nota %1$s.\nMedie generală: %2$s.</string>
+    <string name="tv_last_mark">Ultima notă: %1$s.\nMedie generală: %2$s.</string>
+    <string name="tv_structure">Șaradă %1$s:</string>
+    <string name="tv_input_hint">Scrie aici…</string>
+    <string name="info_title">Informații</string>
+    <string name="info_message">Structura curentă: %1$s.\nȘaradă compusă de %2$s.\n\nȘarade afișate: %3$s.\nȘarade dezlegate: %4$s.\nMedie generală: %5$s.</string>
+    <string name="info_long_title">Dezlegare</string>
+    <string name="info_long_message">Răspunsul era \"%1$s\".</string>
+    <string name="info_long_title2">Confirmare</string>
+    <string name="info_long_message2">Într-adevăr, răspunsul era \"%1$s\".</string>
+    <string name="action_settings">Setări generale</string>
+    <string name="enable_sounds">Redare sunete</string>
+    <string name="enable_speech">Vorbește prin TTS pentru accesibilitate îmbunătățită</string>
+    <string name="enable_shake">Altă șaradă la scuturare</string>
+    <string name="enable_screen_awake">Menținere ecran activ</string>
+    <string name="enable_ime_action">Butonul ENTER (DONE) al tastaturii virtuale încearcă rezolvarea</string>
+    <string name="title_activity_settings">Setări generale</string>
+    <string name="title_default_settings">Resetare joc</string>
+    <string name="body_default_settings">Ești sigur că vrei să resetezi toate valorile?\nJocul Șarade va fi in starea inițială.</string>
+    <string name="mnu_structure">Structură</string>
+    <string name="title_activity_structure">Alege o structură</string>
+    <string name="choose_structure">Alege o structură din lista de mai jos:</string>
+    <string name="chosen_structure_is">Ai ales structura %1$s.</string>
+    <string name="speak_was_resolved">Ai rezolvat-o de nota %1$s!</string>
+    <string name="separator_word">liniuță</string>
+
+    <!-- SARADE authors dialog: -->
+    <string name="autori_sarade_title">Autorii șaradelor:</string>
+
+    <!-- About dialog: -->
+    <string name="about">Despre joc</string>
+    <string name="app_version">Șarade, versiunea 3.0</string>
+    <string name="app_release_date">Versiune 1.0 finalizată duminică, 8 martie 2015</string>
+    <string name="app_last_update">Ultima actualizare: versiune 3.0, finalizată luni, 12 decembrie 2022</string>
+    <string name="app_creator">Programat de Emanuel Boboiu</string>
+    <string name="phone_number">Telefon: +40740203043</string>
+    <string name="email_address">E-mail: android@pontes.ro</string>
+    <string name="web_address">Web: www.android.pontes.ro</string>
+    <string name="app_credits2">Ștefan Halus a creat iconițele și imaginile pentru magazin</string>
+    <string name="app_credits3">Peste 99% din șarade au fost compuse de Ghiță Potra.</string>
+    <string name="open_help">Ajutor</string>
+    <string name="open_send">Trimite o şaradă</string>
+    <string name="title_activity_display_settings">Setări de afișare</string>
+    <string name="mnu_display">Dimensiune text</string>
+    <string name="display_choose_size">Dimensiunea textului șaradelor:</string>
+
+    <!-- Other strings: -->
+    <string name="mnu_rate">Evaluați aplicația…</string>
+    <string name="title_rate_app">Evaluare</string>
+    <string name="body_rate_app">Dacă vă place acest joc, vă rugăm să îl evaluați în Magazin Google Play.\nMulțumim pentru interesul acordat.</string>
+    <string name="bt_rate">Evaluați!</string>
+    <string name="bt_not_now">Nu acum!</string>
+
+    <!-- New in 1.6: -->
+    <string name="title_new_other">Șaradă nouă</string>
+    <string name="body_new_other">Sigur doriți să treceți la o șaradă nouă?\nÎncercarea curentă va fi notată cu 3.\nDacă totuși doriți să nu treceți la o șaradă nouă fără să aflați dezlegarea pentru cea curentă, alegeți aici Nu și apăsați lung butonul Info.</string>
+    <string name="yes">Da</string>
+    <string name="no">Nu</string>
+    <string name="mnu_settings_submenu">Setări</string>
+
+</resources>
