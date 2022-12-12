@@ -785,7 +785,7 @@ public class MainActivity extends Activity {
         for (int i = 0; i < sb.length(); i++) {
             if (Character.toString(sb.charAt(i)).equals(separator)) {
                 sb2.append(separatorWord);
-            } else {=
+            } else {
                 sb2.append(sb.charAt(i));
             } // end if is not the separator.
             // Append also a sign to have spaces at pronunciation:
