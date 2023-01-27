@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -32,6 +34,7 @@ public class MainActivity extends Activity {
     private ShakeDetector mShakeDetector;
     // End fields declaration for shake detector.
 
+    public final Context mContext = this;
     public final static String EXTRA_MESSAGE = "ro.pontes.pontessarade.MESSAGE";
     private boolean isStarted = false;
     private boolean isResolved = true;
@@ -41,6 +44,7 @@ public class MainActivity extends Activity {
 
     private int hintLevel = 0;
     public static String separator = "-";
+    public static int separatorType = 1; // this mean line and a coma, good for voice pronouncing
     private String separatorWord = "";
     public static String chosenStructura = "0+0";
     public static boolean isSpeech = false;
@@ -107,8 +111,7 @@ public class MainActivity extends Activity {
 
         // To keep screen awake:
         if (MainActivity.isWakeLock) {
-            getWindow()
-                    .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } // end wake lock.
 
         // Calculate the pixels in DP for mPaddingDP, for TextViews of the lines
@@ -147,8 +150,7 @@ public class MainActivity extends Activity {
 
         // ShakeDetector initialisation
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
         mShakeDetector.setShakeThresholdGravity(MainActivity.onshakeMagnitude);
         /*
@@ -183,6 +185,8 @@ public class MainActivity extends Activity {
             goToDisplaySettings();
         } else if (id == R.id.structure_settings) {
             goToStructure();
+        } else if (id == R.id.accessibility_settings) {
+            showAccessibilitySettings();
         } else if (id == R.id.mnuRate) {
             GUITools.showRateDialog(this);
         } // end if rate option was chosen in menu.
@@ -191,15 +195,10 @@ public class MainActivity extends Activity {
             // Get the strings:
             String tempTitle = getString(R.string.title_default_settings);
             String tempBody = getString(R.string.body_default_settings);
-            new AlertDialog.Builder(this)
-                    .setTitle(tempTitle)
-                    .setMessage(tempBody)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(R.string.yes,
-                            (dialog, whichButton) -> {
-                                set.setDefaultSettings();
-                                set.chargeSettings();
-                            }).setNegativeButton(R.string.no, null).show();
+            new AlertDialog.Builder(this).setTitle(tempTitle).setMessage(tempBody).setIcon(android.R.drawable.ic_dialog_alert).setPositiveButton(R.string.yes, (dialog, whichButton) -> {
+                set.setDefaultSettings();
+                set.chargeSettings();
+            }).setNegativeButton(R.string.no, null).show();
         } // end if is for set to defaults clicked in main menu.
         else if (id == R.id.autoriSaradeTitle) {
             showAuthors();
@@ -211,8 +210,7 @@ public class MainActivity extends Activity {
             GUITools.openHelp(this);
         } // end if open help is chosen in menu.
         else if (id == R.id.sendSaradaTitle) {
-            GUITools.openBrowser(this,
-                    "http://www.android.pontes.ro/pontessarade/trimite.php");
+            GUITools.openBrowser(this, "http://www.android.pontes.ro/pontessarade/trimite.php");
         } // end if open help is chosen in menu.
 
         return super.onOptionsItemSelected(item);
@@ -257,8 +255,7 @@ public class MainActivity extends Activity {
         cursor.moveToFirst();
         do {
             int authorId = cursor.getInt(0);
-            String sql2 = "SELECT nume FROM autori WHERE _id='" + authorId
-                    + "'";
+            String sql2 = "SELECT nume FROM autori WHERE _id='" + authorId + "'";
             Cursor cursor2 = mDbHelper.getTestData(sql2);
             String theAuthor = cursor2.getString(0);
             cursor2.close();
@@ -267,8 +264,7 @@ public class MainActivity extends Activity {
         // end do ... while.
         cursor.close();
 
-        GUITools.alert(this, getString(R.string.autori_sarade_title),
-                theAuthorsListText.toString());
+        GUITools.alert(this, getString(R.string.autori_sarade_title), theAuthorsListText.toString());
     } // end show authors.
 
     @Override
@@ -277,8 +273,7 @@ public class MainActivity extends Activity {
         if (MainActivity.isShake) {
             // Add the following line to register the Session Manager Listener
             // onResume
-            mSensorManager.registerListener(mShakeDetector, mAccelerometer,
-                    SensorManager.SENSOR_DELAY_UI);
+            mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         }
     } // end onResume method.
 
@@ -328,10 +323,13 @@ public class MainActivity extends Activity {
                     TextView tv = findViewById(123456);
                     String temp = getCurHint(hintLevel, curRezolvare);
                     tv.setText(temp);
-                    // Content description to be said and set:
-                    String contentDescription = makeContentDescriptionHint(temp);
-                    tv.setContentDescription(contentDescription);
-                    speak.say(contentDescription, true);
+                    // Make special content description if necessary:
+                    if (separatorType > 0) {
+                        // Content description to be said and set:
+                        String contentDescription = makeContentDescriptionHint(temp);
+                        tv.setContentDescription(contentDescription);
+                        speak.say(contentDescription, true);
+                    } // end if content description is necessary.
                     if (currentMark > 3) {
                         currentMark = currentMark - 1;
                     }
@@ -368,8 +366,7 @@ public class MainActivity extends Activity {
             set.saveIntSettings("totalCorrect", totalCorrect);
             SoundPlayer.playSimple(this, "win_srd");
             // Announce the finish:
-            speak.say(String.format(getString(R.string.speak_was_resolved),
-                    "" + currentMark), true);
+            speak.say(String.format(getString(R.string.speak_was_resolved), "" + currentMark), true);
         }
     } // end check if is correct method.
 
@@ -409,12 +406,7 @@ public class MainActivity extends Activity {
             // Get the strings:
             String tempTitle = getString(R.string.title_new_other);
             String tempBody = getString(R.string.body_new_other);
-            new AlertDialog.Builder(this)
-                    .setTitle(tempTitle)
-                    .setMessage(tempBody)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(R.string.yes,
-                            (dialog, whichButton) -> otherButtonOrShake()).setNegativeButton(R.string.no, null).show();
+            new AlertDialog.Builder(this).setTitle(tempTitle).setMessage(tempBody).setIcon(android.R.drawable.ic_dialog_alert).setPositiveButton(R.string.yes, (dialog, whichButton) -> otherButtonOrShake()).setNegativeButton(R.string.no, null).show();
         } else { // the game is not started:
             otherButtonOrShake();
         }
@@ -447,9 +439,11 @@ public class MainActivity extends Activity {
             TextView tv = findViewById(123456);
             String temp = getCurHint(hintLevel, curRezolvare);
             tv.setText(temp);
-            String contentDescription = makeContentDescriptionHint(temp);
-            tv.setContentDescription(contentDescription);
-            speak.say(contentDescription, true);
+            if (separatorType > 0) {
+                String contentDescription = makeContentDescriptionHint(temp);
+                tv.setContentDescription(contentDescription);
+                speak.say(contentDescription, true);
+            } // end if content description is necessary.
             // Save also the lastHintText:
             set.saveStringSettings("lastHintText", temp);
             // Set also the new mark:
@@ -472,10 +466,7 @@ public class MainActivity extends Activity {
         String curAuthor = cursor.getString(1);
         cursor.close();
         averageOfMarks = getAverage();
-        GUITools.alert(this, getString(R.string.info_title), String
-                .format(getString(R.string.info_message), curStructura,
-                        curAuthor, "" + numberOfMarks, "" + totalCorrect, ""
-                                + averageOfMarks));
+        GUITools.alert(this, getString(R.string.info_title), String.format(getString(R.string.info_message), curStructura, curAuthor, "" + numberOfMarks, "" + totalCorrect, "" + averageOfMarks));
     } // end infoButton method.
 
     // A method to show the correct answer, if Info Button is long clicked:
@@ -501,13 +492,9 @@ public class MainActivity extends Activity {
             setStatusMark(currentMark);
             hintLevel = 3;
             enableOrDisableButtons();
-            GUITools.alert(this, getString(R.string.info_long_title),
-                    String.format(getString(R.string.info_long_message),
-                            curRezolvare));
+            GUITools.alert(this, getString(R.string.info_long_title), String.format(getString(R.string.info_long_message), curRezolvare));
         } else {
-            GUITools.alert(this, getString(R.string.info_long_title2), String
-                    .format(getString(R.string.info_long_message2),
-                            curRezolvare));
+            GUITools.alert(this, getString(R.string.info_long_title2), String.format(getString(R.string.info_long_message2), curRezolvare));
         } // end else if it was resolved.
     } // end showResultButton.
 
@@ -518,8 +505,7 @@ public class MainActivity extends Activity {
         if (chosenStructura.equals("0+0")) {
             sql = "SELECT _id FROM sarade ORDER BY random() LIMIT 1";
         } else {
-            sql = "SELECT _id FROM sarade WHERE structura='" + chosenStructura
-                    + "' ORDER BY random() LIMIT 1";
+            sql = "SELECT _id FROM sarade WHERE structura='" + chosenStructura + "' ORDER BY random() LIMIT 1";
         }
         Cursor cursor = mDbHelper.getTestData(sql);
         r = cursor.getInt(0);
@@ -577,8 +563,7 @@ public class MainActivity extends Activity {
         int temp3Length = temp3.length();
         if (temp3Length > 0) {
             StringBuilder sb = new StringBuilder(replaceDiacritics(temp3));
-            StringBuilder temp2NonDiacritics = new StringBuilder(
-                    replaceDiacritics(rezolvare));
+            StringBuilder temp2NonDiacritics = new StringBuilder(replaceDiacritics(rezolvare));
             for (int i = 0; i < rezolvare.length() && i < temp3Length; i++) {
                 if (temp2NonDiacritics.charAt(i) == sb.charAt(i)) {
                     temp.setCharAt(i, temp2.charAt(i));
@@ -667,8 +652,7 @@ public class MainActivity extends Activity {
             isResolved = false;
             set.saveBooleanSettings("isResolved", isResolved);
 
-            Cursor cursor = mDbHelper
-                    .getTestData("SELECT * FROM sarade WHERE _id=" + curID + "");
+            Cursor cursor = mDbHelper.getTestData("SELECT * FROM sarade WHERE _id=" + curID + "");
             curStructura = cursor.getString(1);
             String curTemp = cursor.getString(2);
             curRezolvare = cursor.getString(3);
@@ -685,9 +669,7 @@ public class MainActivity extends Activity {
             ll.removeAllViews();
 
             // A LayoutParams to add next items into the main layout:
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             // Create all TextViews and add them in llMain:
             TextView tv = new TextView(this);
@@ -715,9 +697,7 @@ public class MainActivity extends Activity {
                 tv.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
                 tv.setPadding(mPaddingDP, mPaddingDP, mPaddingDP, mPaddingDP);
                 // Make each line in capital letter:
-                String line = s.substring(0, 1).toUpperCase(
-                        Locale.getDefault())
-                        + s.substring(1);
+                String line = s.substring(0, 1).toUpperCase(Locale.getDefault()) + s.substring(1);
                 tv.setText(line);
                 final String mfLine = line;
                 // Add a listener:
@@ -757,15 +737,22 @@ public class MainActivity extends Activity {
             String tempHint = getCurHint(hintLevel, curRezolvare);
             tv.setText(tempHint);
 
-            // A method which make a good contentDescription:a
-            final String tempContentDescription = makeContentDescriptionHint(tempHint);
-            tv.setContentDescription(tempContentDescription);
-
+            // A method which make a good contentDescription if necessary:
+            String tempContentDescription;
+            if (separatorType > 0) {
+                tempContentDescription = makeContentDescriptionHint(tempHint);
+                tv.setContentDescription(tempContentDescription);
+            } // en dif content description is necessary.
+            else { // the content description is the normal text.
+                tempContentDescription = tempHint;
+            }
             // Add a listener:
             tv.setOnClickListener(view -> {
                 // Only if the challenge is started:
                 if (isStarted) {
-                    speak.say(tempContentDescription, true);
+                    if (separatorType > 0) {
+                        speak.say(tempContentDescription, true);
+                    }
                 } // end if it's started.
             });
             // End add listener for a line of text.
@@ -788,11 +775,15 @@ public class MainActivity extends Activity {
             } else {
                 sb2.append(sb.charAt(i));
             } // end if is not the separator.
-            // Append also a sign to have spaces at pronunciation:
-            sb2.append(", ");
+            // Append also a sign to have spaces at pronunciation, coma if separator type is 1 and no comma if separatorType is2:
+            if (separatorType == 1) {
+                sb2.append(", ");
+            } else if (separatorType == 2) {
+                sb2.append(" ");
+            } // end if only spaces between separators and letters.
         } // end for.
         tcd = sb2.toString();
-        return tcd.substring(0, tcd.length() - 1);
+        return tcd;
     } // makeContentDescription() method.
 
     private void enableOrDisableButtons() {
@@ -812,11 +803,9 @@ public class MainActivity extends Activity {
     // A method to write current mark on the status label:
     private void setStatusMark(int mark) {
         if (isStarted) {
-            tvStatus.setText(String.format(tvCurStatusMark, "" + mark, ""
-                    + averageOfMarks));
+            tvStatus.setText(String.format(tvCurStatusMark, "" + mark, "" + averageOfMarks));
         } else {
-            tvStatus.setText(String.format(tvLastStatusMark, "" + mark, ""
-                    + averageOfMarks));
+            tvStatus.setText(String.format(tvLastStatusMark, "" + mark, "" + averageOfMarks));
         }
     } // end set mark on the status label method.
 
@@ -856,5 +845,63 @@ public class MainActivity extends Activity {
             lastHintText = set.getStringSettings("lastHintText");
         } // end if is started.
     } // end chargeLast method.
+
+
+    // The method to create alert for accessibility settings:
+    public void showAccessibilitySettings() {
+        // Inflate the accessibility settings XML contents
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View settingsView = inflater.inflate(R.layout.settings_accessibility, null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle(R.string.sm_heading_accessibility_settings);
+        builder.setView(settingsView);
+        builder.setPositiveButton(mContext.getString(R.string.sm_bt_close_accessibility_settings), (dialog, whichButton) -> {
+            finish();
+            startActivity(getIntent());
+        });
+
+        builder.create();
+        builder.show();
+
+        // Check the radio button for speech type:
+        int tempSpeechType = MainActivity.separatorType;
+        String rb = "rbSpeechType" + tempSpeechType;
+        int resID = mContext.getResources().getIdentifier(rb, "id", mContext.getPackageName());
+        RadioButton radioButton = settingsView.findViewById(resID);
+        radioButton.setChecked(true);
+        // End set chosen radio button for speech type.
+    } // end showAccessibilitySettings() method.
+
+    // A method to take the radio button event:
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked:
+        int tempId = view.getId();
+        switch (tempId) {
+            // For speech type, 3 radio buttons:
+            case R.id.rbSpeechType0:
+                if (checked) {
+                    set.saveIntSettings("separatorType", 0);
+                    MainActivity.separatorType = 0;
+                }
+                break;
+
+            case R.id.rbSpeechType1:
+                if (checked) {
+                    set.saveIntSettings("separatorType", 1);
+                    MainActivity.separatorType = 1;
+                }
+                break;
+
+            case R.id.rbSpeechType2:
+                if (checked) {
+                    set.saveIntSettings("separatorType", 2);
+                    MainActivity.separatorType = 2;
+                }
+                break;
+        } // end switch.
+    } // end onRadioButtonClicked.
 
 } // end MainActivity.

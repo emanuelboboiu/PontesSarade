@@ -28,20 +28,25 @@ public class Settings {
     // A method to post a new game and the number of hands played during the
     // sessions:
     public void postStats(final String gameIdInDB, final int numberOfGamesPlayed) {
-        String url = "http://www.pontes.ro/ro/divertisment/games/soft_counts.php?pid="
-                + gameIdInDB + "&score=" + numberOfGamesPlayed;
+        String url = "http://www.pontes.ro/ro/divertisment/games/soft_counts.php?pid=" + gameIdInDB + "&score=" + numberOfGamesPlayed;
 
         new GetWebData().execute(url);
     } // end post data statistics.
 
     // Methods for save and read preferences with SharedPreferences:
 
+    // A method to detect if a preference exist or not:
+    public boolean preferenceExists(String key) {
+        // Restore preferences
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        return settings.contains(key);
+    } // end detect if a preference exists or not.
+
     // Save a boolean value:
     public void saveBooleanSettings(String key, boolean value) {
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(key, value);
         // Commit the edits!
@@ -52,8 +57,7 @@ public class Settings {
     public boolean getBooleanSettings(String key) {
         boolean value;
         // Restore preferences
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         value = settings.getBoolean(key, false);
 
         return value;
@@ -63,8 +67,7 @@ public class Settings {
     public void saveIntSettings(String key, int value) {
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(key, value);
         // Commit the edits!
@@ -75,8 +78,7 @@ public class Settings {
     public int getIntSettings(String key) {
         int value;
         // Restore preferences
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         value = settings.getInt(key, 0);
 
         return value;
@@ -86,8 +88,7 @@ public class Settings {
     public void saveFloatSettings(String key, float value) {
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putFloat(key, value);
         // Commit the edits!
@@ -98,8 +99,7 @@ public class Settings {
     public float getFloatSettings(String key) {
         float value;
         // Restore preferences
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         value = settings.getFloat(key, 3.0F); // a default value like the value
         // for moderate magnitude.
 
@@ -110,8 +110,7 @@ public class Settings {
     public void saveStringSettings(String key, String value) {
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(key, value);
         // Commit the edits!
@@ -122,8 +121,7 @@ public class Settings {
     public String getStringSettings(String key) {
         String value;
         // Restore preferences
-        SharedPreferences settings = context
-                .getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         value = settings.getString(key, null);
 
         return value;
@@ -138,16 +136,17 @@ public class Settings {
 
         if (!isNotFirstRunning) {
             saveBooleanSettings("isFirstRunning", true);
-            // Make default values in SharedPrefferences:
+            // Make default values in SharedPreferences:
             setDefaultSettings();
         }
 
         // Now charge settings:
-
         // Charge STRUCTURA:
         // MainActivity.chosenStructura = getStringSettings("chosenStructura");
         MainActivity.separator = getStringSettings("separator");
-
+        if (preferenceExists("separatorType")) {
+            MainActivity.separatorType = getIntSettings("separatorType");
+        }
         // Play or not the sounds and speech:
         MainActivity.isSpeech = getBooleanSettings("isSpeech");
         MainActivity.isSound = getBooleanSettings("isSound");
@@ -180,43 +179,32 @@ public class Settings {
     } // end charge settings.
 
     public void setDefaultSettings() {
-
+        MainActivity.separatorType = 1; // line and comma.
+        saveIntSettings("separatorType", 1);
         // saveStringSettings("chosenStructura", "0+0");
-
         saveStringSettings("separator", "-");
-
         saveBooleanSettings("isStarted", false);
-
         // // Activate speech if accessibility, explore by touch is enabled:
         MainActivity.isSpeech = GUITools.isAccessibilityEnabled(context);
         saveBooleanSettings("isSpeech", MainActivity.isSpeech);
-
         saveBooleanSettings("isSound", true);
         saveBooleanSettings("isImeAction", true);
-
         // For text size for lines:
         saveIntSettings("textSize", 20);
-
         // Activate shake detection:
         saveBooleanSettings("isShake", false);
-
         // Set on shake magnitude to 2.2F: // now default value, medium.
         saveFloatSettings("onshakeMagnitude", 3.0F);
-
         // For keeping screen awake:
         saveBooleanSettings("isWakeLock", false);
-
         // For sumOfMarks and numberOfMarks:
         saveIntSettings("sumOfMarks", 0);
         saveIntSettings("numberOfMarks", 0);
         MainActivity.averageOfMarks = 0.0;
-
         saveIntSettings("totalCorrect", 0);
         MainActivity.totalCorrect = 0;
-
         // Save DataBase version to 0:
         saveIntSettings("dbVer", 0);
-
     } // end setDefaultSettings function.
 
     // This is a subclass:
@@ -241,8 +229,7 @@ public class Settings {
                 // Create a URLConnection object:
                 URLConnection urlConnection = url.openConnection();
                 // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String line;
                 // Read from the URLConnection via the BufferedReader:
                 while ((line = bufferedReader.readLine()) != null) {

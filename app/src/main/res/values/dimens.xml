@@ -4,7 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-<dimen name="text_size_main">20sp</dimen>
-<dimen name="buttons_size">18sp</dimen>
-    
+    <dimen name="text_size_main">20sp</dimen>
+    <dimen name="buttons_size">18sp</dimen>
+    <dimen name="text_heading_settings_size">22sp</dimen>
+
 </resources>

@@ -26,6 +26,11 @@
                 android:showAsAction="never"
                 android:title="@string/mnu_display" />
             <item
+                android:id="@+id/accessibility_settings"
+                android:orderInCategory="360"
+                android:showAsAction="never"
+                android:title="@string/mnu_accessibility" />
+            <item
                 android:id="@+id/reset_defaults"
                 android:orderInCategory="375"
                 android:showAsAction="never"

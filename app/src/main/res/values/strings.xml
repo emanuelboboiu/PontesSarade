@@ -34,14 +34,15 @@
     <string name="speak_was_resolved">Ai rezolvat-o de nota %1$s!</string>
     <string name="separator_word">liniuță</string>
 
+
     <!-- SARADE authors dialog: -->
     <string name="autori_sarade_title">Autorii șaradelor:</string>
 
     <!-- About dialog: -->
     <string name="about">Despre joc</string>
-    <string name="app_version">Șarade, versiunea 3.0</string>
+    <string name="app_version">Șarade, versiunea 3.3</string>
     <string name="app_release_date">Versiune 1.0 finalizată duminică, 8 martie 2015</string>
-    <string name="app_last_update">Ultima actualizare: versiune 3.0, finalizată luni, 12 decembrie 2022</string>
+    <string name="app_last_update">Ultima actualizare: versiune 3.3, finalizată vineri, 27 ianuarie 2023</string>
     <string name="app_creator">Programat de Emanuel Boboiu</string>
     <string name="phone_number">Telefon: +40740203043</string>
     <string name="email_address">E-mail: android@pontes.ro</string>
@@ -67,5 +68,14 @@
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <string name="mnu_settings_submenu">Setări</string>
+
+    <!-- New string in version 3.3, starting with 27 January 2023: -->
+    <string name="mnu_accessibility">Setări de accesibilitate</string>
+    <string name="sm_heading_accessibility_settings">Setări de accesibilitate</string>
+    <string name="sm_bt_close_accessibility_settings">Închidere și aplicare setare</string>
+    <string name="sm_speak_type">Mod citire status șaradă cu cititoarele de ecran.\nCeea ce apare în locul unei litere lipsă.</string>
+    <string name="sm_speak_type_1">Cuvântul „liniuță” și semnul virgulă</string>
+    <string name="sm_speak_type_2">doar cuvântul „liniuță”</string>
+    <string name="sm_speak_type_0">afișare normală, fără descriere</string>
 
 </resources>

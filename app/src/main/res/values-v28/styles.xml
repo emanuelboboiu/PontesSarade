@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="textInSettingsHeadingsStyle" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">true</item>
+        <item name="android:screenReaderFocusable">true</item>
+        <item name="android:accessibilityHeading" tools:targetApi="p">true</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textSize">@dimen/text_heading_settings_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

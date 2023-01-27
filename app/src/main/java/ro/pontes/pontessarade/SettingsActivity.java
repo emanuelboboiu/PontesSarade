@@ -15,23 +15,23 @@ public class SettingsActivity extends Activity {
         // Check or check the check boxes, depending of current boolean values:
 
         // For sounds in game:
-        CheckBox cbtSoundsSetting = (CheckBox) findViewById(R.id.cbtSoundsSetting);
+        CheckBox cbtSoundsSetting = findViewById(R.id.cbtSoundsSetting);
         cbtSoundsSetting.setChecked(MainActivity.isSound);
 
         // For speech settings:
-        CheckBox cbtSpeechSetting = (CheckBox) findViewById(R.id.cbtSpeechSetting);
+        CheckBox cbtSpeechSetting = findViewById(R.id.cbtSpeechSetting);
         cbtSpeechSetting.setChecked(MainActivity.isSpeech);
 
         // For shake:
-        CheckBox cbtOnshakeSetting = (CheckBox) findViewById(R.id.cbtOnshakeSetting);
+        CheckBox cbtOnshakeSetting = findViewById(R.id.cbtOnshakeSetting);
         cbtOnshakeSetting.setChecked(MainActivity.isShake);
 
         // For keeping screen awake:
-        CheckBox cbtScreenAwakeSetting = (CheckBox) findViewById(R.id.cbtScreenAwakeSetting);
+        CheckBox cbtScreenAwakeSetting = findViewById(R.id.cbtScreenAwakeSetting);
         cbtScreenAwakeSetting.setChecked(MainActivity.isSpeech);
 
         // For IME DONE button of the keyboard:
-        CheckBox cbtImeSetting = (CheckBox) findViewById(R.id.cbtImeSetting);
+        CheckBox cbtImeSetting = findViewById(R.id.cbtImeSetting);
         cbtImeSetting.setChecked(MainActivity.isImeAction);
     } // end onCreate.
 
