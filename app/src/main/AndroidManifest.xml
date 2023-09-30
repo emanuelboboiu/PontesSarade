@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ro.pontes.pontessarade"
-    android:versionCode="14"
-    android:versionName="3.3">
+    android:versionCode="15"
+    android:versionName="3.5">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -51,5 +51,11 @@
                 android:value="MainActivity" />
         </activity>
     </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
 
 </manifest>

@@ -63,7 +63,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             this.getReadableDatabase();
             this.close();
             try {
-                // Copy the database from assests:
+                // Copy the database from assets:
                 copyDataBase();
                 // Log.e(TAG, "createDatabase database created");
             } catch (IOException mIOException) {
@@ -101,15 +101,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean openDataBase() throws SQLException {
         String mPath = DB_PATH;
         // Log.v("mPath", mPath);
-        mDataBase = SQLiteDatabase.openDatabase(mPath, null,
-                SQLiteDatabase.CREATE_IF_NECESSARY);
+        mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return mDataBase != null;
     }
 
     @Override
     public synchronized void close() {
-        if (mDataBase != null)
-            mDataBase.close();
+        if (mDataBase != null) mDataBase.close();
         super.close();
     }
 

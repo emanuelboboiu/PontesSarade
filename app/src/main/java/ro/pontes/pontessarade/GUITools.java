@@ -60,8 +60,7 @@ public class GUITools {
     @SuppressLint("InflateParams")
     public static void aboutDialog(Context context) {
         // Inflate the about message contents
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View messageView = inflater.inflate(R.layout.about_dialog, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -89,38 +88,27 @@ public class GUITools {
 
     // A method to open the help online:
     public static void openHelp(final Context context) {
-        openBrowser(context,
-                "http://www.android.pontes.ro/pontessarade/ajutor.php");
+        openBrowser(context, "http://www.android.pontes.ro/pontessarade/ajutor.php");
     } // end open help online method.
 
     // A method to rate this application:
     public static void showRateDialog(final Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle(context.getString(R.string.title_rate_app))
-                .setMessage(context.getString(R.string.body_rate_app))
-                .setPositiveButton(context.getString(R.string.bt_rate),
-                        (dialog, which) -> {
-                            Settings set = new Settings(context);
-                            set.saveBooleanSettings("wasRated", true);
-                            String link = "market://details?id=";
-                            try {
-                                // play market available
-                                context.getPackageManager()
-                                        .getPackageInfo(
-                                                "com.android.vending",
-                                                0);
-                                // not available
-                            } catch (PackageManager.NameNotFoundException e) {
-                                e.printStackTrace();
-                                // Should use browser
-                                link = "https://play.google.com/store/apps/details?id=";
-                            }
-                            // Starts external action
-                            context.startActivity(new Intent(
-                                    Intent.ACTION_VIEW, Uri.parse(link
-                                    + context.getPackageName())));
-                        })
-                .setNegativeButton(context.getString(R.string.bt_not_now), null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle(context.getString(R.string.title_rate_app)).setMessage(context.getString(R.string.body_rate_app)).setPositiveButton(context.getString(R.string.bt_rate), (dialog, which) -> {
+            Settings set = new Settings(context);
+            set.saveBooleanSettings("wasRated", true);
+            String link = "market://details?id=";
+            try {
+                // play market available
+                context.getPackageManager().getPackageInfo("com.android.vending", 0);
+                // not available
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                // Should use browser
+                link = "https://play.google.com/store/apps/details?id=";
+            }
+            // Starts external action
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link + context.getPackageName())));
+        }).setNegativeButton(context.getString(R.string.bt_not_now), null);
         builder.show();
     } // end showRateDialog() method.
 
@@ -130,8 +118,7 @@ public class GUITools {
         boolean wasRated = set.getBooleanSettings("wasRated");
         if (!wasRated) {
 
-            if (MainActivity.numberOfLaunches % 3 == 0
-                    && MainActivity.numberOfLaunches > 0) {
+            if (MainActivity.numberOfLaunches % 3 == 0 && MainActivity.numberOfLaunches > 0) {
                 GUITools.showRateDialog(context);
             } // end if was x launches.
         } // end if it was not rated.
@@ -139,8 +126,7 @@ public class GUITools {
 
     // A method which detects if accessibility is enabled:
     public static boolean isAccessibilityEnabled(Context context) {
-        AccessibilityManager am = (AccessibilityManager) context
-                .getSystemService(Context.ACCESSIBILITY_SERVICE);
+        AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
         // boolean isAccessibilityEnabled = am.isEnabled();
         return am.isTouchExplorationEnabled();
     } // end isAccessibilityEnabled() method.

@@ -40,9 +40,9 @@
 
     <!-- About dialog: -->
     <string name="about">Despre joc</string>
-    <string name="app_version">Șarade, versiunea 3.3</string>
+    <string name="app_version">Șarade, versiunea 3.5</string>
     <string name="app_release_date">Versiune 1.0 finalizată duminică, 8 martie 2015</string>
-    <string name="app_last_update">Ultima actualizare: versiune 3.3, finalizată vineri, 27 ianuarie 2023</string>
+    <string name="app_last_update">Ultima actualizare: versiune 3.5, finalizată duminică, 1 octombrie 2023</string>
     <string name="app_creator">Programat de Emanuel Boboiu</string>
     <string name="phone_number">Telefon: +40740203043</string>
     <string name="email_address">E-mail: android@pontes.ro</string>

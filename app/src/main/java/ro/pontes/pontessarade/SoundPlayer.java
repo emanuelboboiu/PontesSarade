@@ -19,8 +19,7 @@ public class SoundPlayer {
             MediaPlayer mp = new MediaPlayer();
 
             int resID;
-            resID = context.getResources().getIdentifier(fileName, "raw",
-                    context.getPackageName());
+            resID = context.getResources().getIdentifier(fileName, "raw", context.getPackageName());
             mp = MediaPlayer.create(context, resID);
 
             mp.start();
@@ -30,8 +29,7 @@ public class SoundPlayer {
     } // end static method playSimple.
 
     // A method to play wait final, a static one:
-    public static void playWaitFinal(final Context context,
-                                     final String fileName) {
+    public static void playWaitFinal(final Context context, final String fileName) {
         if (MainActivity.isSound) {
             // Play in another thread, this way it is possible to be better the
             // playWait method of the SoundPlayer class:
@@ -39,8 +37,7 @@ public class SoundPlayer {
 
                 MediaPlayer mp = new MediaPlayer();
 
-                int resID = context.getResources().getIdentifier(fileName,
-                        "raw", context.getPackageName());
+                int resID = context.getResources().getIdentifier(fileName, "raw", context.getPackageName());
                 mp = MediaPlayer.create(context, resID);
 
                 mp.start();

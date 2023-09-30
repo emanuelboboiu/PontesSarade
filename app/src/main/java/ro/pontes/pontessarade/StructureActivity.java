@@ -12,8 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class StructureActivity extends Activity implements
-        OnItemSelectedListener {
+public class StructureActivity extends Activity implements OnItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +50,13 @@ public class StructureActivity extends Activity implements
 
         Spinner dropdown = findViewById(R.id.spinner1);
         String[] items = sb.toString().split("\\|");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(this);
     } // end onCreate.
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         String chosen = parent.getItemAtPosition(position).toString();
 
@@ -81,8 +78,7 @@ public class StructureActivity extends Activity implements
             temp = MainActivity.chosenStructura;
         }
         TextView tv = new TextView(this);
-        String message = String.format(getString(R.string.chosen_structure_is),
-                temp);
+        String message = String.format(getString(R.string.chosen_structure_is), temp);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, MainActivity.textSize);
         tv.setText(message);
         ll.addView(tv);
