@@ -874,34 +874,19 @@ public class MainActivity extends Activity {
 
     // A method to take the radio button event:
     public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked:
         int tempId = view.getId();
-        switch (tempId) {
-            // For speech type, 3 radio buttons:
-            case R.id.rbSpeechType0:
-                if (checked) {
-                    set.saveIntSettings("separatorType", 0);
-                    MainActivity.separatorType = 0;
-                }
-                break;
 
-            case R.id.rbSpeechType1:
-                if (checked) {
-                    set.saveIntSettings("separatorType", 1);
-                    MainActivity.separatorType = 1;
-                }
-                break;
-
-            case R.id.rbSpeechType2:
-                if (checked) {
-                    set.saveIntSettings("separatorType", 2);
-                    MainActivity.separatorType = 2;
-                }
-                break;
-        } // end switch.
-    } // end onRadioButtonClicked.
+        if (tempId == R.id.rbSpeechType0 && checked) {
+            set.saveIntSettings("separatorType", 0);
+            MainActivity.separatorType = 0;
+        } else if (tempId == R.id.rbSpeechType1 && checked) {
+            set.saveIntSettings("separatorType", 1);
+            MainActivity.separatorType = 1;
+        } else if (tempId == R.id.rbSpeechType2 && checked) {
+            set.saveIntSettings("separatorType", 2);
+            MainActivity.separatorType = 2;
+        }
+    }
 
 } // end MainActivity.
